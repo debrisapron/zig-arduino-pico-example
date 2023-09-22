@@ -46,10 +46,13 @@ extern "C" {
         delay(ms);
     }
 
+    // NOTE: Unlike the standard Arduion tone, this one is blocking
     void _tone(unsigned short _pin, unsigned int frequency, unsigned long duration) {
         // Flash led for extra feedback
         digitalWrite(PIN_LED, HIGH);
-        tone(_pin, frequency, duration);
+        tone(_pin, frequency);
+        delay(duration);
         digitalWrite(PIN_LED, LOW);
+        noTone(_pin);
     }
 }

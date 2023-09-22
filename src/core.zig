@@ -7,14 +7,14 @@ const Hal = @cImport({
 const TIMEZONE = "PST8PDT,M3.2.0,M11.1.0";
 
 // TODO: Move these to a separate secrets module
-const SSID = "**YOUR SSID HERE**";
-const PASSPHRASE = "**YOUR PASSPHRASE HERE**";
+const SSID = "SO PASSE"; //"**YOUR SSID HERE**";
+const PASSPHRASE = "ble$$ings"; //"**YOUR PASSPHRASE HERE**";
 
 const NTP_SERVER_1 = "pool.ntp.org";
 const NTP_SERVER_2 = "time.nist.gov";
 const AUDIO_PIN = 0;
 const WL_CONNECTED = 3;
-const ALARM_FREQS = [4]u16{ 262, 330, 392, 523 };
+const STRIKE_FREQS = [4]u16{ 262, 330, 392, 523 };
 const QUIET_TIME = [2]u8{ 23, 7 };
 
 var _ntp_running: bool = false;
@@ -28,30 +28,35 @@ var _prev_sync_attempt: Hal.TimeInfo = Hal.TimeInfo{
     .tm_year = 0,
 };
 
-fn beep(freq: u16, len: u16, rest: u16) void {
+fn beep(freq: u16, len: u16) void {
     Hal._tone(AUDIO_PIN, freq, len);
-    Hal._delay(rest);
 }
 
 fn strikeHour(hr: u8) void {
     // Covert 0-23 to 1-12
     var hr12: u8 = hr % 12;
-    if (hr12 == 0) hr12 = 12;
+    if (hr12 == 0) {
+        hr12 = 12;
+    }
 
     for (0..hr12) |i| {
-        const freq: u16 = ALARM_FREQS[i % 4];
-        beep(freq, 300, 100);
+        const freq: u16 = STRIKE_FREQS[i % 4];
+        beep(freq, 300);
+        Hal._delay(100);
     }
 }
 
 fn playStartupTone() void {
-    beep(440, 200, 0);
-    beep(523, 200, 1000);
+    beep(440, 200);
+    beep(523, 200);
+    beep(880, 400);
+    Hal._delay(1000);
 }
 
 fn playErrorTone() void {
     for (0..4) |_| {
-        beep(220, 900, 100);
+        beep(220, 900);
+        Hal._delay(100);
     }
 }
 
