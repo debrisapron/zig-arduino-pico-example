@@ -4,9 +4,9 @@ A simple but fully-functional [Striking Clock](https://en.wikipedia.org/wiki/Str
 
 ## Hardware
 
-If you want to actually make the thing, wire Pico GPIO 0 to one terminal of a [small speaker](https://www.adafruit.com/product/3968), and Pico ground to the other terminal*. Plug the Pico into a power source. That's it.
+If you want to actually make the thing, wire Pico GPIO 0 to one terminal of a [small speaker](https://www.adafruit.com/product/3968), and Pico ground to the other terminal[^1]. Plug the Pico into a power source. That's it.
 
-* I don't think it matters which way round they go but I also can't be bothered to look it up right now, so caveat emptor.
+[^1]: I don't think it matters which way round they go but I also can't be bothered to look it up right now, so caveat emptor.
 
 ## To build & install
 
@@ -27,11 +27,11 @@ Zig is a small, highly rigorous & extremely performant language for close-to-the
 - We have a `main.cpp` with the standard Arduino `setup` and `loop` entry points. These call into equivalent entry points in our Zig library.
 - We have a HAL (Hardware Abstraction Layer) written in C and C++ containing all the API functions exposed to Zig. This is split into a standard C header file & a C++ implementation file.
 - We have a Zig source file which exports its own setup & loop entry points.
-- The same file also *imports* our HAL header file using Zig's C translation capability.
+- The same file also *imports* our HAL header file using Zig's C translation capability[^2].
 - We have a `build-core.sh` script which uses `zig build-lib` to compile a binary library file, making sure to point it to the location of the HAL header file.
 - Going the other way, we have a `plaformio.ini` file which contains linker flags, so when we run `pio run` the linker can find the Zig-generated binaries.
 
-Note that this design also makes it easy to test core.zig, since we can simply replace the HAL with a mock implementation.
+[^2]: Note that this design also makes it easy to test core.zig, since we can simply replace the HAL with a mock implementation.
 
 ## Areas for improvement
 
