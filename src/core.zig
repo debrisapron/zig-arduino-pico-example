@@ -7,8 +7,8 @@ const Hal = @cImport({
 const TIMEZONE = "PST8PDT,M3.2.0,M11.1.0";
 
 // TODO: Move these to a separate secrets module
-const SSID = "SO PASSE"; //"**YOUR SSID HERE**";
-const PASSPHRASE = "ble$$ings"; //"**YOUR PASSPHRASE HERE**";
+const SSID = "**YOUR SSID HERE**";
+const PASSPHRASE = "**YOUR PASSPHRASE HERE**";
 
 const NTP_SERVER_1 = "pool.ntp.org";
 const NTP_SERVER_2 = "time.nist.gov";
